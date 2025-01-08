@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+
+# Project specific
+/.idea
+/.vs
+/.vscode
+/build
+/out
+/staff
+/build-debug
+/build-release
+/notes.txt
+
