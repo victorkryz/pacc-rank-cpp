@@ -37,6 +37,7 @@
 /.vs
 /.vscode
 /build
+/cache
 /out
 /staff
 /build-debug
