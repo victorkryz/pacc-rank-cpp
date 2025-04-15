@@ -1,6 +1,13 @@
 # $\color{MidnightBlue}\textit{\textbf{pacc-rank}}$
 
-Small C++ implemented app that processes the voting result of online 
+
+![C++](https://img.shields.io/badge/C++-20-blueviolet?logo=C++)
+![curl](https://img.shields.io/badge/curl-7.58+-brightgreen?logo=curl)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04+-red?logo=Ubuntu)
+![Windows](https://img.shields.io/badge/Windows-11-blue?logo=Windows)
+
+
+C++-based app that processes the voting result of online 
 "Public Anti-Corruption Council of the Ministry of Defence".
 
 #### What the app does:
