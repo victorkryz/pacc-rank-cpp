@@ -33,8 +33,8 @@ void ProtocolProcessor::print_report()
     std::uint16_t order(1);
     while (it != ranks_.end())
     {
-        const auto &entry = *(it++);
-        output_dev_ << order++ << ") " << entry.candidate_id << " - " << entry.rank << std::endl;
+        const auto [candidate_id, rank] = *(it++);
+        output_dev_ << order++ << ") " << candidate_id << " - " << rank << std::endl;
     }
 }
 
