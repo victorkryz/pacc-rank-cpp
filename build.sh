@@ -13,7 +13,7 @@ fi
 
 mkdir -p ${BUILD_DIR}
 pushd ${BUILD_DIR}
-#cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-11 ..
-cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
+cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++-11 .. -target "pacc-rank"
+#cmake -Wno-dev -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
 make -j4
 popd
