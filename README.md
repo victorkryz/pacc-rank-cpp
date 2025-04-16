@@ -1,8 +1,9 @@
 # $\color{MidnightBlue}\textit{\textbf{pacc-rank}}$
 
 
-![C++](https://img.shields.io/badge/C++-20-blueviolet?logo=C++)
-![curl](https://img.shields.io/badge/curl-7.58+-brightgreen?logo=curl)
+![C++](https://img.shields.io/badge/C++-20-purple?logo=C++)
+![curl](https://img.shields.io/badge/curl-7.58+-lightgray?logo=curl)
+![cmake](https://img.shields.io/badge/cmake-3.30-brightgreen)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-18.04+-red?logo=Ubuntu)
 ![Windows](https://img.shields.io/badge/Windows-11-blue?logo=Windows)
 
