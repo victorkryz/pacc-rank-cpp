@@ -1,9 +1,8 @@
-#include <exception>
-#include "downloader.h"
 #include "protocol_provider.h"
+#include "downloader.h"
+#include <exception>
 
 namespace fs = std::filesystem;
-
 
 std::ifstream ProtocolProvider::obtain_content()
 {
@@ -45,7 +44,7 @@ std::ifstream ProtocolProvider::obtain_content()
     return protocol_fs;
 }
 
-bool ProtocolProvider::download_protocol(fs::path &cache_full_path)
+bool ProtocolProvider::download_protocol(fs::path& cache_full_path)
 {
     std::ofstream protocol_fs(cache_full_path);
 
