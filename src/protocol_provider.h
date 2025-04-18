@@ -1,17 +1,15 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <filesystem>
 #include "content_provider.h"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
 
 class ProtocolProvider : public ContentProvider
 {
 public:
-    ProtocolProvider() {};
-    ProtocolProvider(const std::string &remote_reference, std::ostream &output_dev) : 
-                                                    remote_reference_(remote_reference),
-                                                    output_dev_(output_dev) {};
+    ProtocolProvider(const std::string& remote_reference, std::ostream& output_dev) : remote_reference_(remote_reference),
+                                                                                      output_dev_(output_dev) {};
     ~ProtocolProvider() override = default;
 
     std::ifstream obtain_content() override;
@@ -21,5 +19,5 @@ private:
 
 private:
     std::string remote_reference_;
-    std::ostream& output_dev_ = std::cout;
+    std::ostream& output_dev_;
 };

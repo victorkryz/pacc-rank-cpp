@@ -2,7 +2,6 @@
 
 #include <fstream>
 
-
 struct ContentProvider
 {
     virtual ~ContentProvider() = default;
