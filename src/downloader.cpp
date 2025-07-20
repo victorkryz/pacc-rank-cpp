@@ -6,21 +6,11 @@
 namespace downloader
 {
 
-    size_t curl_write_callback(void* contents, size_t size, size_t nmemb, void* userp)
-    {
-        std::ofstream* stream = reinterpret_cast<std::ofstream*>(userp);
-        const size_t chunk_sz = size * nmemb;
-        stream->write((char*)contents, chunk_sz);
-        return chunk_sz;
-    }
-
-    FileDownloader::FileDownloader()
-    {
+    FileDownloader::FileDownloader() {
         init();
     }
 
-    FileDownloader::~FileDownloader()
-    {
+    FileDownloader::~FileDownloader() {
         uninit();
     }
 
@@ -38,12 +28,21 @@ namespace downloader
 
     bool FileDownloader::download_file(const std::string& reference, std::ofstream& file)
     {
+        auto write_callback_ptr = +[](char* contents, size_t size, size_t nmemb, void* userp) -> size_t
+        {
+            std::ofstream* stream = reinterpret_cast<std::ofstream*>(userp);
+            const size_t chunk_sz = size * nmemb;
+            stream->write(contents, chunk_sz);
+            return chunk_sz;
+        };
+
         bool result = false;
         if (nullptr != curl_)
         {
             curl_easy_setopt(curl_, CURLOPT_URL, reference.c_str());
+            curl_easy_setopt(curl_, CURLOPT_CUSTOMREQUEST, "GET");
             curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curl_write_callback);
+            curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, write_callback_ptr);
             curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &file);
 
             CURLcode res = curl_easy_perform(curl_);
