@@ -110,11 +110,3 @@ ProtocolProcessor::sorted_ranks_t ProtocolProcessor::sort_ranks(const ProtocolPr
 
     return sranks;
 }
-
-void get_value(char* p)
-{
-}
-
-void get_ref(char& p)
-{
-}
