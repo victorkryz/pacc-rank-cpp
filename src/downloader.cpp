@@ -40,6 +40,7 @@ namespace downloader
         if (nullptr != curl_)
         {
             curl_easy_setopt(curl_, CURLOPT_URL, reference.c_str());
+            curl_easy_setopt(curl_, CURLOPT_HTTPGET, 1L);
             curl_easy_setopt(curl_, CURLOPT_CUSTOMREQUEST, "GET");
             curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0);
             curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, write_callback_ptr);
