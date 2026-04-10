@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include "content_provider.h"
 #include <fstream>
 #include <memory>
