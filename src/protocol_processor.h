@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include "content_provider.h"
 #include <fstream>
 #include <memory>
@@ -11,7 +12,7 @@
 class ProtocolProcessor
 {
 private:
-    using ranks_t = std::unordered_map<std::uint32_t, std::optional<std::uint32_t>>;
+    using ranks_t = std::unordered_map<std::uint32_t, std::uint32_t>;
 
     struct rank_entry_t
     {
@@ -20,14 +21,16 @@ private:
 
         bool operator<(const rank_entry_t& other) const
         {
-            return rank < other.rank;
+            if (rank != other.rank)
+                return rank < other.rank;
+            return candidate_id > other.candidate_id;
         }
     };
 
     using sorted_ranks_t = std::vector<rank_entry_t>;
 
 public:
-    ProtocolProcessor(std::shared_ptr<ContentProvider>& protocol_provider, std::ostream& output_dev);
+    ProtocolProcessor(std::shared_ptr<ContentProvider> protocol_provider, std::ostream& output_dev);
     ~ProtocolProcessor();
 
     void process();

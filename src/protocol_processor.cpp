@@ -1,5 +1,4 @@
 #include "protocol_processor.h"
-#include "downloader.h"
 #include <algorithm>
 #include <exception>
 #include <map>
@@ -8,7 +7,7 @@
 
 using namespace std::literals;
 
-ProtocolProcessor::ProtocolProcessor(std::shared_ptr<ContentProvider>& protocol_provider,
+ProtocolProcessor::ProtocolProcessor(std::shared_ptr<ContentProvider> protocol_provider,
                                      std::ostream& output_dev) : protocol_provider_(protocol_provider),
                                                                  output_dev_(output_dev) {}
 
@@ -44,7 +43,7 @@ void ProtocolProcessor::obtain_protocol()
     {
         protocol_ = protocol_provider_->obtain_content();
         if (!protocol_.good())
-            std::runtime_error("Bad protocol content");
+            throw std::runtime_error("Bad protocol content");
     }
     else if (!protocol_.good())
     {
@@ -52,6 +51,8 @@ void ProtocolProcessor::obtain_protocol()
         protocol_.seekg(0, std::ios_base::beg);
     }
 }
+
+#include <iostream>
 
 ProtocolProcessor::ranks_t ProtocolProcessor::parse_protocol()
 {
@@ -70,7 +71,8 @@ ProtocolProcessor::ranks_t ProtocolProcessor::parse_protocol()
             rank_pos += std::size(RANK_PREFIX);
 
             const size_t rank_end_pos = line.find_first_of(RANK_END_DELIMITER, rank_pos);
-            const std::string rank_sequence = line.substr(rank_pos, rank_end_pos);
+            const size_t rank_len = (std::string::npos == rank_end_pos) ? std::string::npos : rank_end_pos - rank_pos;
+            const std::string rank_sequence = line.substr(rank_pos, rank_len);
 
             extract_rank_values(rank_sequence, ranks);
         }
@@ -89,11 +91,7 @@ void ProtocolProcessor::extract_rank_values(const std::string& rank_sequence,
     while (std::getline(s_stream, s_value, RANK_VALUES_DELIMITER))
     {
         const int rank_val = std::stoi(s_value);
-        ranks_t::value_type::second_type& count = ranks[rank_val];
-        if (!count.has_value())
-            count = 1;
-        else
-            count.value()++;
+        ++ranks[rank_val];
     }
 }
 
@@ -104,7 +102,7 @@ ProtocolProcessor::sorted_ranks_t ProtocolProcessor::sort_ranks(const ProtocolPr
 
     std::transform(ranks.begin(), ranks.end(),
                    sranks.begin(), [](const ranks_t::value_type& v) -> rank_entry_t
-                   { return {v.first, v.second.value()}; });
+                   { return {v.first, v.second}; });
 
     std::sort(sranks.rbegin(), sranks.rend(), std::less<rank_entry_t>());
 
