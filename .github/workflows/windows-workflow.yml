@@ -1,0 +1,43 @@
+
+name: Windows, build and test
+
+on:
+ workflow_dispatch:
+    inputs:
+      build_type:
+        description: "Build configuration"
+        required: true
+        default: "Release"
+
+env:
+  BUILD_TYPE: Release
+  BUILD_CONFIGURATION: Release
+  BUILD_DIRECTORY: build
+  INSTALL_DIRECTORY: dist
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build 
+      run: |
+       cmake --version
+       cmake -S. -B ${{env.BUILD_DIRECTORY}} -A x64
+       cmake --build ${{github.workspace}}\${{env.BUILD_DIRECTORY}} --config ${{env.BUILD_CONFIGURATION}}
+       
+    - name: Test
+      working-directory: ${{github.workspace}}/${{env.BUILD_DIRECTORY}}/g.tests
+      run: ctest -V
+
+    - name: Install
+      run: cmake --install ${{github.workspace}}/${{env.BUILD_DIRECTORY}} --prefix ${{github.workspace}}/${{env.INSTALL_DIRECTORY}}
+
+    - name: Run pacc-rank
+      working-directory: ${{github.workspace}}/${{env.INSTALL_DIRECTORY}}
+      run: bin\pacc-rank
