@@ -1,10 +1,9 @@
-#include "downloader.h"
 #include "protocol_processor.h"
 #include "protocol_provider.h"
 
 const static std::string PROTOCOL_REMOTE_REF = "https://rgk.vote.mod.gov.ua/protocol.txt";
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
     int result(0);
 

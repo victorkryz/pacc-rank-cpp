@@ -1,12 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
 set(app pacc-rank)
-project(${app})
+project(${app} LANGUAGES CXX)
 
-set(CMAKE_GENERATOR "Ninja")
-message("generator is set to ${CMAKE_GENERATOR}")
-
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
 set(CURL_INCLUDE_DIRS "")
 set(CURL_LIBRARIES "")
@@ -29,14 +26,16 @@ if(WIN32)
 
 else()
 
-    set(CURL_LIBRARIES curl)
-
-endif()
+    find_package(CURL REQUIRED)
+    set(CURL_LIBRARIES CURL::libcurl)
+    
+    endif()
 
 add_executable(${app} ${source_files})
 
 target_include_directories(${app} PRIVATE ${CURL_INCLUDE_DIRS})
 target_link_libraries(${app} ${CURL_LIBRARIES})
+
 
 if(WIN32)
 
@@ -44,7 +43,19 @@ if(WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/curl-src/bin/libcurl-x64.dll ${CMAKE_BINARY_DIR}
         COMMENT "Injecting curl dll into resulting build directory")
 
+    install(TARGETS ${app}
+        RUNTIME DESTINATION bin)
+
+    install(FILES
+        ${FETCHCONTENT_BASE_DIR}/curl-src/bin/libcurl-x64.dll
+        ${FETCHCONTENT_BASE_DIR}/curl-src/bin/curl-ca-bundle.crt
+        DESTINATION bin)
+
+else()
+
+    install(TARGETS ${app} DESTINATION bin)
 
 endif()
+
 
 
